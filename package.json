@@ -10,7 +10,6 @@
   "author": "sattya",
   "license": "ISC",
   "dependencies": {
-    "@vitalets/google-translate-api": "^9.2.0",
     "fs": "^0.0.1-security",
     "puppeteer": "^22.9.0",
     "xlsx": "^0.18.5"

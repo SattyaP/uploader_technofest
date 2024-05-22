@@ -76,7 +76,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
             if (filteredFiles.length > 0) {
                 filteredFiles.forEach(async (file) => {
-                    console.log("Uploading file: ", file);
+                    // Note: kalo mau enak gambarnya disiapin semuanya dulu di folder images
                     const fileInput = await page.waitForSelector('input[name="image[]"]');
                     const filePath = path.join(directoryPath, file);
                     await fileInput.uploadFile(filePath);
@@ -103,6 +103,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
                     } else if (key === "__EMPTY_6" && data[key]) {
                         _data.supervisor = data[key];
                     }
+                    // TODO: Need to translate deskripsi with AI
                 });
 
                 await inputData(_data);
