@@ -19,7 +19,7 @@ Make sure you have an account on <icie website> and have obtained the cookies.
 
 ### Run the bot by executing the command:
 
-`node bot.js`
+`npm start`
 
 ## Contribution
 Contributions are always welcome. To propose changes, create a pull request and describe the proposed changes.
