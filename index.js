@@ -34,7 +34,9 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
             document.querySelector("input[name='link_file']").value = data.fileLink;
             document.querySelector("input[name='superv']").value = data.supervisor;
             document.querySelector('input[name="matkul"]').value = "Tugas Akhir Mata Kuliah"
-            document.querySelector("input[name='printed']").click();
+            document.querySelector(".checkbox > input[name='printed']").click();
+            document.querySelector("input[name='link_video']").value = data.videoLink;
+            document.querySelector('textarea[name="project_desc"]').value = data.deskripsi;
         }, data)
 
         const member = await page.$('#form-submit > div.card-body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span > span.selection > span > ul > li > input')
@@ -57,14 +59,14 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         }
 
         await uploadCover(page, data.teamName);
-        
+
         console.log("Data: ", data.teamName + " has been inputted");
 
         await delay(3000);
     };
 
     const uploadCover = async (page, name) => {
-        const directoryPath = './data/images/';
+        const directoryPath = './data/images/SI';
 
         fs.readdir(directoryPath, (err, files) => {
             if (err) {
@@ -76,7 +78,6 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
             if (filteredFiles.length > 0) {
                 filteredFiles.forEach(async (file) => {
-                    // Note: kalo mau enak gambarnya disiapin semuanya dulu di folder images
                     const fileInput = await page.waitForSelector('input[name="image[]"]');
                     const filePath = path.join(directoryPath, file);
                     await fileInput.uploadFile(filePath);
@@ -87,8 +88,8 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const proccesFile = async () => {
         try {
-            const files = readExcel("data/SI.xlsx");
-            for (let i = 2; i < 5; i++) {
+            const files = readExcel("data/fill.xlsx", 0);
+            for (let i = 2; i < files.length; i++) {
                 const data = files[i];
 
                 let _data = {}
@@ -102,8 +103,11 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
                         _data.fileLink = data[key];
                     } else if (key === "__EMPTY_6" && data[key]) {
                         _data.supervisor = data[key];
+                    } else if (key === "__EMPTY_11" && data[key]) {
+                        _data.videoLink = data[key];
+                    } else if (key === "__EMPTY_12" && data[key]) {
+                        _data.deskripsi = data[key];
                     }
-                    // TODO: Need to translate deskripsi with AI
                 });
 
                 await inputData(_data);
