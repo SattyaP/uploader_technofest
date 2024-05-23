@@ -1,5 +1,5 @@
 ## Description
-This repository contains a bot that can automatically input data into <icie website>. The bot is developed by SattyaP using Node.js.
+This repository contains a bot that can automatically input data into `Icie Website`. The bot is developed by SattyaP using Node.js.
 
 ## Installation
 Ensure Node.js is installed on your computer. You can download it from the official Node.js website.
@@ -15,7 +15,7 @@ Ensure Node.js is installed on your computer. You can download it from the offic
 `npm install`
 
 ## Usage
-Make sure you have an account on <icie website> and have obtained the cookies.
+Make sure you have an account on `Icie Website` and have obtained the cookies.
 
 ### Run the bot by executing the command:
 
