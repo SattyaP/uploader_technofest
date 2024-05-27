@@ -46,16 +46,16 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
         const memberList = await page.$('.select2-results__option')
         if (memberList) {
-            await page.evaluate((data) => {
+            await page.evaluate((page, data) => {
                 const option = document.querySelectorAll('.select2-results__option')
-                option.forEach((el) => {
-                    if (el.textContent.includes(data)) {
-                        el.click();
+                option.forEach(async (el) => {
+                    if (el.innerText.includes(data)) {
+                        await page.select('.select2-results__options', el.value)
                     } else {
                         document.querySelector('#form-submit > div.card-body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span > span.selection > span > ul > li > input').value = ""
                     }
                 })
-            }, data.teamName)
+            }, page, data.teamName)
         }
 
         await uploadCover(page, data.teamName);
@@ -66,7 +66,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     };
 
     const uploadCover = async (page, name) => {
-        const directoryPath = './data/images/SI';
+        const directoryPath = './data/images/IF/';
 
         fs.readdir(directoryPath, (err, files) => {
             if (err) {
@@ -88,24 +88,34 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const proccesFile = async () => {
         try {
-            const files = readExcel("data/fill.xlsx", 0);
-            for (let i = 2; i < files.length; i++) {
+            const files = readExcel("data/fill.xlsx", 2);
+            for (let i = 13; i < files.length - 3; i++) {
                 const data = files[i];
 
                 let _data = {}
+                
 
                 Object.keys(data).forEach(async (key) => {
                     if (key === "__EMPTY_2" && data[key]) {
-                        _data.teamName = data[key];
-                    } else if (key === "__EMPTY_3" && data[key]) {
+                        _data.teamName = data[key].trim();
+                    } else if (key === "__EMPTY_4" && data[key]) {
                         _data.projectName = data[key];
-                    } else if (key === "__EMPTY_7" && data[key]) {
+                    } else if (key === "__EMPTY_10" && data[key]) {
                         _data.fileLink = data[key];
+                    } else if (key === "__EMPTY_5" && data[key]) {
+                        const value = data[key];
+                        let filteredData;
+
+                        if (value.includes("Pembimbing") && !value.includes("Co Pembimbing")) {
+                            const modifiedValue = value.replace("Pembimbing :", "").trim();
+                            filteredData = modifiedValue;
+                        } else {
+                            filteredData = value;
+                        }
+                        _data.supervisor = filteredData;
                     } else if (key === "__EMPTY_6" && data[key]) {
-                        _data.supervisor = data[key];
-                    } else if (key === "__EMPTY_11" && data[key]) {
                         _data.videoLink = data[key];
-                    } else if (key === "__EMPTY_12" && data[key]) {
+                    } else if (key === "__EMPTY_9" && data[key]) {
                         _data.deskripsi = data[key];
                     }
                 });
