@@ -8,6 +8,7 @@ export async function submitData() {
     const browser = await puppeteer.launch({
         headless: false,
         defaultViewport: null,
+        args: ["--start-maximized"],
     });
 
     const inputData = async (data) => {
