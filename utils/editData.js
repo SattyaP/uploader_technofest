@@ -9,11 +9,7 @@ export async function editData() {
         args: ["--start-maximized"],
     });
 
-    let page = await browser.newPage()
-    const pages = await browser.pages();
-    if (pages[0].url() === "about:blank") {
-        pages[0].close()
-    };
+    const page = (await browser.pages())[0);
 
     try {
         const files = fs.readFileSync("./credentials/cookies.json", "utf8");
