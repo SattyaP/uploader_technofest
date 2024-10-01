@@ -12,11 +12,7 @@ export async function submitData() {
     });
 
     const inputData = async (data) => {
-        let page = await browser.newPage()
-        const [pages] = await browser.pages();
-        if (pages.url() === "about:blank") {
-            pages.close()
-        };
+        const page = (await browser.pages())[0]
 
         const files = fs.readFileSync("./credentials/cookies.json", "utf8");
         const cookies = JSON.parse(files);
