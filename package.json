@@ -10,7 +10,7 @@
   "author": "sattya",
   "license": "ISC",
   "dependencies": {
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "fs": "^0.0.1-security",
     "puppeteer": "^23.0.0",
     "xlsx": "^0.18.5"
